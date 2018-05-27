@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "scripts": {
+    "bundle": "pulp build --to dist/dev/app.js",
+    "serve": "parcel src/index.html -d 'dist/dev'",
+    "build": "pulp build"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.8.1",
+    "pulp": "^12.0.1",
+    "purescript": "^0.11.6",
+    "purescript-psa": "^0.5.1"
+  }
+}
