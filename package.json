@@ -1,5 +1,4 @@
 {
-  "private": true,
   "scripts": {
     "bundle": "pulp build --to dist/dev/app.js",
     "serve": "parcel src/index.html -d 'dist/dev'",
