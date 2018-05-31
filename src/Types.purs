@@ -70,3 +70,5 @@ type Article =
   , favoritesCount :: Int
   , author :: Profile
   }
+
+type Tag = String
