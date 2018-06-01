@@ -35,8 +35,8 @@ derive instance ordArticleSlot :: Ord ArticleSlot
 
 type Effect eff = Aff (ajax :: AX.AJAX | eff)
 
-home :: forall eff. H.Component HH.HTML Query Input Message (Effect eff)
-home =
+ui :: forall eff. H.Component HH.HTML Query Input Message (Effect eff)
+ui =
   H.lifecycleParentComponent
     { initialState: const initialState
     , render
@@ -94,7 +94,7 @@ home =
           ]
 
       renderArticle x =
-        HH.slot (ArticleSlot x.slug) Article.article  {article: x} absurd
+        HH.slot (ArticleSlot x.slug) Article.ui  {article: x} absurd
 
       eval :: Query ~> H.ParentDSL State Query Article.Query ArticleSlot Message (Effect eff)
       eval = case _ of

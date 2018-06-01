@@ -26,8 +26,8 @@ derive instance ordSlot :: Ord Slot
 
 type Effect eff = Aff (ajax :: AX.AJAX | eff)
 
-app :: forall eff. H.Component HH.HTML Query Input Message (Effect eff)
-app =
+ui :: forall eff. H.Component HH.HTML Query Input Message (Effect eff)
+ui =
   H.parentComponent
     { initialState: const initialState
     , render
@@ -43,7 +43,7 @@ app =
     render state =
       HH.div_
         [ header
-        , HH.slot Slot Home.home unit absurd
+        , HH.slot Slot Home.ui unit absurd
         ]
         where
           header =

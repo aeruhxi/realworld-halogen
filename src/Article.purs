@@ -15,8 +15,8 @@ type Input = { article :: Article }
 data Query a
   = HandleInput Input a
 
-article :: forall m. H.Component HH.HTML Query Input Void m
-article =
+ui :: forall m. H.Component HH.HTML Query Input Void m
+ui =
   H.component
     { initialState: \{ article } -> { article }
     , render
