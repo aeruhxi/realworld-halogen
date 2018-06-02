@@ -1,24 +1,25 @@
 module App where
 
+
 import Prelude
 
-import Data.Const (Const)
-import Data.Maybe (Maybe(..))
-import Data.Newtype (unwrap)
 import Halogen as H
 import Halogen.HTML as HH
 import Halogen.HTML.Properties as HP
 import Home as Home
 import Control.Monad.Aff (Aff)
 import Network.HTTP.Affjax as AX
+import Router as R
+import Data.Maybe(Maybe(..))
 
-type State = Unit
-
-type Query = Const Void
+type State = { route :: R.AppRoute }
 
 type Input = Unit
 
 type Message = Void
+
+data Query a
+  = ChangeRoute R.AppRoute a
 
 data Slot = Slot
 derive instance eqSlot :: Eq Slot
@@ -29,15 +30,12 @@ type Effect eff = Aff (ajax :: AX.AJAX | eff)
 ui :: forall eff. H.Component HH.HTML Query Input Message (Effect eff)
 ui =
   H.parentComponent
-    { initialState: const initialState
+    { initialState: const { route: R.Home }
     , render
     , eval
     , receiver: const Nothing
     }
   where
-
-    initialState :: State
-    initialState = unit
 
     render :: State -> H.ParentHTML Query Home.Query Slot (Effect eff)
     render state =
@@ -63,5 +61,13 @@ ui =
                 [ HH.text text ]
               ]
 
+          -- HH.slot (ArticleSlot x.slug) Article.ui  {article: x} absurd
+          renderRoute = case _ of
+            R.Home -> HH.slot ()
+            _ ->
+
     eval :: Query ~> H.ParentDSL State Query Home.Query Slot Message (Effect eff)
-    eval = unwrap >>> absurd
+    eval = case _ of
+      ChangeRoute newRoute next -> do
+        H.modify (_ {route = newRoute})
+        pure next
